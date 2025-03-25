@@ -239,11 +239,13 @@ export default function Home() {
           </div>
         </div>
         <div className="card-section w-full flex justify-center mt-12">
-          <div className="w-3/4 bg-white shadow-lg rounded-2xl p-6 flex">
-            <div className={`w-3/4 transition-all duration-1000 ${animate ? "animate-move" : "opacity-0"}`}>
+          <div className="w-3/4 bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row">
+            {/* Image Section */}
+            <div className={`w-full md:w-3/4 transition-all duration-1000 ${animate ? "animate-move" : "opacity-0"}`}>
               <img src="/wallpaper.jpeg" alt="Romantic Wallpaper" className="w-full h-auto rounded-xl" />
             </div>
-            <div className="w-1/4 flex items-center justify-center">
+            {/* Text Section */}
+            <div className="w-full md:w-1/4 flex items-center justify-center mt-4 md:mt-0">
               <div className="text-center">
                 <p className="text-xl font-bold text-pink-600">💖 My Love 💖</p>
                 <p className="text-lg text-gray-700 mt-2">
