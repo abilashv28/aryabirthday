@@ -155,4 +155,16 @@ body {
 .animate-bounce {
   animation: bounce 2s infinite ease-in-out;
 }
+@keyframes moveLeftRight {
+  0% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(20px);
+  }
+}
 
+.animate-move {
+  animation: moveLeftRight 5s ease-in-out ;
+  opacity: 1;
+}

@@ -17,6 +17,42 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [showTitleCard, setShowTitleCard] = useState(false);
+  const [animate, setAnimate] = useState(false);
+  const framerSectionRef = useRef<HTMLDivElement | null>(null);
+  const specialMessageRef = useRef<HTMLDivElement | null>(null);
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (specialMessageRef.current) {
+        const sectionTop = specialMessageRef.current.getBoundingClientRect().top;
+        if (sectionTop < window.innerHeight * 0.75) {
+          setStartAnimation(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Trigger once on mount
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (framerSectionRef.current) {
+        const sectionTop = framerSectionRef.current.getBoundingClientRect().top;
+        if (sectionTop < window.innerHeight * 0.8) {
+          setAnimate(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Trigger once on mount in case it's already visible
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,21 +114,21 @@ export default function Home() {
 
       {/* Title Card (Appears After 2 Seconds) */}
       {showTitleCard && (
-        <div className="tag-container transition-opacity duration-1000 opacity-100">
+        <div className="title-card tag-container transition-opacity duration-1000 opacity-100">
           🎉 Happy 25th Birthday Arya! 🎂
           <div className="ribbon-bow"></div>
           <div className="ribbon-tail"></div>
         </div>
       )}
       {/* Video Section - Styled Card */}
-      <div className="mt-6 flex flex-col items-center">
+      <div className="video-section mt-6 flex flex-col items-center">
         <div className="bg-white p-4 rounded-lg shadow-lg border border-pink-300">
           <video src="/lovehug.mp4" autoPlay loop muted className="w-[320px] md:w-[400px] rounded-lg" />
           <p className="mt-2 text-sm text-gray-700 font-semibold">A special moment for Arya 💖</p>
         </div>
       </div>
       {/* Countdown Timer */}
-      <div className="mt-6 flex flex-wrap justify-center gap-3 px-4 text-white">
+      <div className="countdown mt-6 flex flex-wrap justify-center gap-3 px-4 text-white">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="bg-pink-800 bg-opacity-80 p-3 rounded-md shadow-md border border-white min-w-[60px] text-center">
             <p className="text-2xl md:text-3xl font-semibold">{value}</p>
@@ -102,14 +138,14 @@ export default function Home() {
       </div>
 
       {/* Music Player */}
-      <div className="mt-6 flex items-center space-x-4">
+      <div className="music-player mt-6 flex items-center space-x-4">
         <audio ref={audioRef} src="/birthday-song.mp3" />
         <button onClick={toggleMusic} className="bg-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform">
           {isPlaying ? <Pause size={32} color="red" /> : <Play size={32} color="green" />}
         </button>
       </div>
 
-      <div className="mt-8 w-full max-w-4xl bg-white shadow-lg rounded-lg p-4 flex flex-col md:flex-row items-center mb-8">
+      <div className="memory-swipper mt-8 w-full max-w-4xl bg-white shadow-lg rounded-lg p-4 flex flex-col md:flex-row items-center mb-8">
         {/* Left Side - Memory Swiper */}
         <div className="w-full md:w-1/2 p-4">
           <Swiper
@@ -133,11 +169,17 @@ export default function Home() {
         </div>
 
         {/* Right Side - Text Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center p-4 text-gray-700 text-center md:text-left">
+        <div
+          className="special-message w-full md:w-1/2 flex flex-col justify-center p-4 text-gray-700 text-center md:text-left"
+          ref={specialMessageRef}>
           <h2 className="text-2xl font-bold mb-4 text-pink-500">A Special Message for Arya</h2>
           <p className="text-lg leading-relaxed">
             {words.map((word, index) => (
-              <span key={index} className="inline-block animate-word-reveal" style={{ animationDelay: `${index * 0.3}s` }}>
+              // <span key={index} className="inline-block animate-word-reveal" style={{ animationDelay: `${index * 0.3}s` }}>
+              <span
+                key={index}
+                className={`inline-block ${startAnimation ? "animate-word-reveal" : "opacity-0"}`}
+                style={{ animationDelay: `${index * 0.3}s` }}>
                 {word}&nbsp;
               </span>
             ))}
@@ -145,7 +187,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative min-h-screen w-full flex flex-col items-center p-6">
+      <div className="framer-section relative min-h-screen w-full flex flex-col items-center p-6" ref={framerSectionRef}>
         {/* Two-column layout */}
         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Left Swiper */}
@@ -193,6 +235,21 @@ export default function Home() {
                   </SwiperSlide>
                 ))}
               </Swiper>
+            </div>
+          </div>
+        </div>
+        <div className="card-section w-full flex justify-center mt-12">
+          <div className="w-3/4 bg-white shadow-lg rounded-2xl p-6 flex">
+            <div className={`w-3/4 transition-all duration-1000 ${animate ? "animate-move" : "opacity-0"}`}>
+              <img src="/wallpaper.jpeg" alt="Romantic Wallpaper" className="w-full h-auto rounded-xl" />
+            </div>
+            <div className="w-1/4 flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-xl font-bold text-pink-600">💖 My Love 💖</p>
+                <p className="text-lg text-gray-700 mt-2">
+                  Every moment with you is a beautiful memory. You are my dream, my heart, and my everything. 💕
+                </p>
+              </div>
             </div>
           </div>
         </div>
