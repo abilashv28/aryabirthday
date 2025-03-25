@@ -21,34 +21,6 @@ body {
   animation: fade-in 0.5s ease forwards;
 }
 
-/* Fireworks Styling */
-.fireworks-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  background: url("https://i.gifer.com/7Plp.gif") center/cover no-repeat;
-  opacity: 0;
-  animation: fireworks-explode 3s ease-in-out forwards;
-  z-index: 50;
-}
-
-@keyframes fireworks-explode {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  20% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes word-reveal {
   0% {
     opacity: 0;
@@ -140,7 +112,8 @@ body {
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -165,6 +138,6 @@ body {
 }
 
 .animate-move {
-  animation: moveLeftRight 5s ease-in-out ;
+  animation: moveLeftRight 5s ease-in-out;
   opacity: 1;
 }
