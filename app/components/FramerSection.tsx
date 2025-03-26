@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCreative } from "swiper/modules";
 import LoveLetter from "./LoveLetter";
 
-
 export default function FramerSection() {
   const [animate, setAnimate] = useState(false);
   const framerSectionRef = useRef<HTMLDivElement | null>(null);
@@ -66,7 +65,7 @@ export default function FramerSection() {
               autoplay={{ delay: 2000, disableOnInteraction: false }}
               modules={[EffectCreative, Autoplay]}
               className="w-full h-full flex items-center justify-center">
-              {[1, 2, 3, 4, 5].map(num => (
+              {[6, 7, 8, 9, 5].map(num => (
                 <SwiperSlide key={num} className="flex items-center justify-center">
                   <img src={`/photo${num}.jpeg`} alt={`Slide ${num}`} className="w-full h-full object-cover rounded-lg" />
                 </SwiperSlide>
@@ -75,10 +74,10 @@ export default function FramerSection() {
           </div>
         </div>
       </div>
-      <div className="card-section w-full flex justify-center mt-12">
+      <div className={`card-section w-full flex justify-center mt-12 transition-all duration-1000 ${animate ? "animate-move" : "opacity-0"}`}>
         <div className="w-3/4 bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row">
           {/* Image Section */}
-          <div className={`w-full md:w-3/4 transition-all duration-1000 ${animate ? "animate-move" : "opacity-0"}`}>
+          <div className="w-full md:w-3/4">
             <img src="/wallpaper.jpeg" alt="Romantic Wallpaper" className="w-full h-auto rounded-xl" />
           </div>
           {/* Text Section */}
