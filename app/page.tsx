@@ -29,20 +29,29 @@ export default function Home() {
   function calculateTimeLeft() {
     const now = new Date().getTime();
     const difference = targetDate - now;
-
-    if (difference <= 0) {
+  
+    return difference <= 0
+      ? { days: 0, hours: 0, minutes: 0, seconds: 0 }
+      : {
+          days: Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24))),
+          hours: Math.max(0, Math.floor((difference / (1000 * 60 * 60)) % 24)),
+          minutes: Math.max(0, Math.floor((difference / (1000 * 60)) % 60)),
+          seconds: Math.max(0, Math.floor((difference / 1000) % 60)),
+        };
+  }
+  
+  useEffect(() => {
+    if (
+      timeLeft.days === 0 &&
+      timeLeft.hours === 0 &&
+      timeLeft.minutes === 0 &&
+      timeLeft.seconds === 0
+    ) {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 10000);
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
-
-    return {
-      days: Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24))),
-      hours: Math.max(0, Math.floor((difference / (1000 * 60 * 60)) % 24)),
-      minutes: Math.max(0, Math.floor((difference / (1000 * 60)) % 60)),
-      seconds: Math.max(0, Math.floor((difference / 1000) % 60))
-    };
-  }
+  }, [timeLeft]);
+  
 
   useEffect(() => {
     const timer = setInterval(() => {
